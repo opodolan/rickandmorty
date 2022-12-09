@@ -1,0 +1,67 @@
+<div class="page-wrapper">
+  <div class="filters">
+    <form class="form">
+      <mat-form-field appearance="fill">
+        <mat-label>Name</mat-label>
+        <input matInput maxlength="20" [(ngModel)]="filters.name" name="name" placeholder="Ex. Rick Sanchez...">
+      </mat-form-field>
+
+      <mat-form-field appearance="fill">
+        <mat-label>Status option</mat-label>
+        <mat-select [(value)]="filters.status" (valueChange)="onFilter()">
+          <mat-option>None</mat-option>
+          <mat-option value="alive">Alive</mat-option>
+          <mat-option value="dead">Dead</mat-option>
+          <mat-option value="unknown">Unknown</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field appearance="fill">
+        <mat-label>Gender option</mat-label>
+        <mat-select [(value)]="filters.gender" (valueChange)="onFilter()">
+          <mat-option>None</mat-option>
+          <mat-option value="female">Female</mat-option>
+          <mat-option value="male">Male</mat-option>
+          <mat-option value="genderless">Genderless</mat-option>
+          <mat-option value="unknown">Unknown</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <button mat-flat-button extended color="primary" class="filter" (click)="onFilter()">Filer</button>
+    </form>
+  </div>
+
+  <div class="flex-container">
+    <div *ngIf="results && !results.length" class="error-message">
+      <h2>No results found</h2>
+    </div>
+    <article *ngFor="let item of results | slice:0:5;" class="flex-item">
+      <div class="img-wrapper">
+        <img src="{{ item.image }}" alt="{{ item.image }}">
+      </div>
+      <div class="content-wrapper">
+        <div class="section">
+          <a href="https://rickandmortyapi.com/api/character/{{ item.id }}" rel="nofollow noopener noreferrer"
+            target="_blank">
+            <h2>{{ item.name }}</h2>
+          </a>
+          <span class="status">
+            <span class="status__icon {{ item.status.toLocaleLowerCase() }}"></span>
+            {{ item.status }}
+          </span>
+        </div>
+        <div class="section"><span class="text-gray">Last known location:</span>
+          <a href="{{ item.location.url }}" rel="nofollow noopener noreferrer" target="_blank">
+            {{ item.location.name }}
+          </a>
+        </div>
+        <div class="section"><span class="text-gray">First seen in:</span>
+          <a href="https://rickandmortyapi.com/api/episode/{{ item.episode[0] }}" rel="nofollow noopener noreferrer"
+            target="_blank">
+            -
+          </a>
+        </div>
+      </div>
+    </article>
+  </div>
+</div>
